@@ -20,6 +20,7 @@ public class Channel {
 
     String name;
 
+    @Column(columnDefinition = "boolean default true")
     boolean isActive;
 
     String pathLogo;
