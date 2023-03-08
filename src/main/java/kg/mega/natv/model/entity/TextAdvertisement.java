@@ -3,6 +3,7 @@ package kg.mega.natv.model.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tb_text_advs")
@@ -21,4 +22,11 @@ public class TextAdvertisement {
     String text;
 
     Integer countSymbols;
+
+    Date createdDate;
+
+    @PrePersist
+    private void setDate() {
+        createdDate = new Date();
+    }
 }

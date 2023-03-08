@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_text_orders")
@@ -29,11 +30,14 @@ public class TextOrder {
 
     Date endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "text_advs_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "text_advs_id", referencedColumnName = "id")
     TextAdvertisement textAdvertisement;
 
-    @OneToOne
-    @JoinColumn(name = "client_id")
-    Client client;
+    @OneToMany(mappedBy = "textOrder", cascade = CascadeType.ALL)
+    List<OrderDetails> orderDetailsList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    InfoClient infoClient;
 }

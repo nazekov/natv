@@ -1,5 +1,7 @@
 package kg.mega.natv.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import kg.mega.natv.utils.DateUtil;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
@@ -21,13 +23,20 @@ public class DiscountText {
 
     Integer fromDaysCount;
 
-    Double percent;
+    Double discountPercent;
 
     Date startDate;
 
     Date endDate;
 
     @ManyToOne
-    @JoinColumn(name = "channel_id")
+    @JoinColumn(name = "channel_id", referencedColumnName = "id")
+    @JsonIgnore
     Channel channel;
+
+    @PrePersist
+    private void setDates() {
+        setStartDate(new Date());
+        setEndDate(DateUtil.getInstance().getEndDate());
+    }
 }

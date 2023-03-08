@@ -3,6 +3,7 @@ package kg.mega.natv.model.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_order_details")
@@ -25,10 +26,13 @@ public class OrderDetails {
     Double totalPriceWithDiscounts;
 
     @ManyToOne
-    @JoinColumn(name = "channel_id")
+    @JoinColumn(name = "channel_id", referencedColumnName = "id")
     Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "text_order_id")
+    @JoinColumn(name = "text_order_id", referencedColumnName = "id")
     TextOrder textOrder;
+
+    @OneToMany(mappedBy = "orderDetails", cascade = CascadeType.ALL)
+    List<DatesOrderDetails> datesOrderDetails;
 }

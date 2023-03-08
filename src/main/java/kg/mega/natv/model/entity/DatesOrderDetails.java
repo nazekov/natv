@@ -22,6 +22,6 @@ public class DatesOrderDetails {
     Date date;
 
     @ManyToOne
-    @JoinColumn(name = "order_details_Id")
+    @JoinColumn(name = "order_details_Id", referencedColumnName = "id")
     OrderDetails orderDetails;
 }
