@@ -2,7 +2,7 @@ package kg.mega.natv.enums;
 
 public enum StatusOrder {
 
-    ACCEPTED,
+    CREATED,
     CANCELLED,
     COMPLETED
 }
