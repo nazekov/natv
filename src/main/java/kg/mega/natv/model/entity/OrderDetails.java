@@ -1,8 +1,21 @@
 package kg.mega.natv.model.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -19,20 +32,18 @@ public class OrderDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    boolean isActive;
+    Double price;
 
-    Double totalPrice;
-
-    Double totalPriceWithDiscounts;
+    Double priceWithDiscount;
 
     @ManyToOne
     @JoinColumn(name = "channel_id", referencedColumnName = "id")
     Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "text_order_id", referencedColumnName = "id")
-    TextOrder textOrder;
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    Order order;
 
     @OneToMany(mappedBy = "orderDetails", cascade = CascadeType.ALL)
-    List<DatesOrderDetails> datesOrderDetails;
+    List<DatesOrderDetails> days;
 }

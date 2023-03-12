@@ -1,22 +1,28 @@
 package kg.mega.natv.model.entity;
 
-import kg.mega.natv.utils.DateUtil;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Cascade;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_channels")
 @Getter
 @Setter
-@ToString
+//@ToString()
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -30,26 +36,26 @@ public class Channel {
     String name;
 
     @Column(nullable = false)
-    boolean isActive = true;
+    boolean active = true;
 
     String pathLogo;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
-    List<PriceText> pricesText;
+    List<Price> priceList;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
-    List<DiscountText> discountsText;
+    List<Discount> discountsText;
 
-    public void addNewPriceText(PriceText price) {
-        if (pricesText == null) {
-            pricesText = new ArrayList<>();
+    public void addNewPriceText(Price price) {
+        if (priceList == null) {
+            priceList = new ArrayList<>();
         }
-        if (pricesText.size() != 0) {
-            pricesText.get(pricesText.size() - 1)
+        if (priceList.size() != 0) {
+            priceList.get(priceList.size() - 1)
                     .setEndDate(new Date());
         }
 
         price.setChannel(this);
-        pricesText.add(price);
+        priceList.add(price);
     }
 }
