@@ -2,7 +2,7 @@ package kg.mega.natv.exception_handle;
 
 import kg.mega.natv.exception_handle.exception.ImageException;
 import kg.mega.natv.exception_handle.exception.InputInfoChannelException;
-import kg.mega.natv.exception_handle.exception.TextOrderException;
+import kg.mega.natv.exception_handle.exception.OrderException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectInputData> handleException(
-                        TextOrderException exception) {
+                        OrderException exception) {
         IncorrectInputData error = new IncorrectInputData();
         error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setMessage(exception.getMessage());
