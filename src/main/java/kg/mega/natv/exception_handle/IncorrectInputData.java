@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.Date;
 
 @Getter
@@ -18,6 +17,6 @@ public class IncorrectInputData {
 
     String errorType;
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm", timezone = "Asia/Bishkek")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     Date dateTime;
 }
