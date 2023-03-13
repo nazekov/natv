@@ -22,7 +22,6 @@ import java.util.List;
 @Table(name = "tb_channels")
 @Getter
 @Setter
-//@ToString()
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
