@@ -14,7 +14,7 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
     @Query(value = "select discount from " +
                     "(select from_days_count, discount_percent as discount " +
-                    "from tb_discounts_text " +
+                    "from tb_discounts " +
                     "where channel_id = ?1 and end_date = ?2 " +
                     "order by from_days_count desc) as sub_tb " +
                     "where ?3 >= from_days_count " +
@@ -24,7 +24,7 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
     @Query(value = "select from_days_count as fromDaysCount, " +
                             "discount_percent as discountPercent " +
-                    "from tb_discounts_text " +
+                    "from tb_discounts " +
                     "where channel_id = ?1 and end_date = '2999-12-31 00:00:00'",
             nativeQuery = true)
     List<IDiscountDto> findDiscounts(Long channelId);
