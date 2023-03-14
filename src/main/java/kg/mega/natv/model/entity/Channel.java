@@ -34,7 +34,7 @@ public class Channel {
     @Column(unique = true)
     String name;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "boolean default true")
     boolean active = true;
 
     String pathLogo;
