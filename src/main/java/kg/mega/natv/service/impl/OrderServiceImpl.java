@@ -22,7 +22,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -79,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Double getPricePerLetter(Long channelId) {
-        return priceService.findPriceByChannelIdAndEndDate(channelId);
+        return priceService.findActualPriceByChannelId(channelId);
     }
 
     private int getTextSize(String text) {

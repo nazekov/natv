@@ -22,7 +22,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Double findPriceByChannelIdAndEndDate(Long id) {
+    public Double findActualPriceByChannelId(Long id) {
         return priceRepository.findByChannelIdAndEndDate(id,
                 DateUtil.getInstance().getEndDate());
     }

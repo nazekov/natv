@@ -5,7 +5,7 @@ import kg.mega.natv.model.entity.Channel;
 
 public interface PriceService {
 
-    Double findPriceByChannelIdAndEndDate(Long id);
+    Double findActualPriceByChannelId(Long id);
 
     Channel addPrice(PriceRequestDto priceRequestDto);
 }
