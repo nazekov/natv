@@ -1,9 +1,11 @@
 package kg.mega.natv.service;
 
+import kg.mega.natv.model.dto.request_dto.DiscountCreateDto;
 import kg.mega.natv.model.dto.request_dto.PriceRequestDto;
 import kg.mega.natv.model.dto.response_dto.ChannelResponseDto;
 import kg.mega.natv.model.dto.request_dto.ChannelCreateDto;
 import kg.mega.natv.model.entity.Channel;
+import kg.mega.natv.model.entity.Discount;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface ChannelService {
     Channel addNewPrice(PriceRequestDto priceRequestDto);
 
     Channel setActiveById(long id, boolean newActive);
+
+    Channel addNewDiscount(Channel channel);
 }

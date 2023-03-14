@@ -27,4 +27,10 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
                     "where channel_id = ?1 and end_date = '2999-12-31 00:00:00' ",
             nativeQuery = true)
     List<IDiscountDto> findDiscounts(Long channelId);
+
+    @Query(value = "from Discount " +
+                    "where channel.id = ?1 " +
+                    "and discountPercent = ?2 " +
+                    "and endDate = '2999-12-31 00:00:00' ")
+    Optional<Discount> existsDiscount(long channelId, double discount);
 }
