@@ -23,6 +23,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
@@ -54,12 +56,16 @@ public class ChannelServiceImpl implements ChannelService {
         Channel channel = new Channel();
         channel.setName(channelDto.getName());
         channel.setPathLogo(saveLogo(file));
+
         Price price = new Price();
         price.setPricePerLetter(channelDto.getPricePerLetter());
-        List<Discount> discounts = DiscountMapper.INSTANCE
+        price.setChannel(channel);
+
+        List<Discount> discounts = discountMapper
                         .dtoToDiscountEntityList(channelDto.getDiscounts());
-        channel.addNewPriceText(price);
-        channel.setDiscountsText(discounts);
+        List<Price> priceList = Arrays.asList(price);
+        channel.setPriceList(priceList);
+        channel.setDiscounts(discounts);
         if (discounts != null) {
             discounts.forEach(discount -> discount.setChannel(channel));
         }
@@ -133,10 +139,15 @@ public class ChannelServiceImpl implements ChannelService {
         Long channelId = priceRequestDto.getChannelId();
         Channel channel = channelRepository.findById(channelId)
                 .orElseThrow(() -> new InputInfoChannelException("Channel not found"));
-        Price price = new Price();
-        price.setPricePerLetter(priceRequestDto.getPricePerLetter());
-        channel.addNewPriceText(price);
-        return channel;
+        Price newPrice = new Price();
+        newPrice.setPricePerLetter(priceRequestDto.getPricePerLetter());
+        newPrice.setChannel(channel);
+        List<Price> priceList = channel.getPriceList();
+        priceList.forEach(
+            price -> price.setEndDate(new Date())
+        );
+        priceList.add(newPrice);
+        return channelRepository.save(channel);
     }
 
     @Override
