@@ -15,7 +15,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChannelRequestDto {
 
-    Long channelId;
+    long channelId;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
     List<Date> days;

@@ -16,7 +16,7 @@ public class ChannelCreateDto {
 
     String name;
 
-    Double pricePerLetter;
+    double pricePerLetter;
 
     List<DiscountDto> discounts;
 }

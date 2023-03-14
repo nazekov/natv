@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DiscountDto {
 
-    Integer fromDaysCount;
+    int fromDaysCount;
 
-    Double discountPercent;
+    double discountPercent;
 }

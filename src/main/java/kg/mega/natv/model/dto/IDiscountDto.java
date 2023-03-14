@@ -2,7 +2,7 @@ package kg.mega.natv.model.dto;
 
 public interface IDiscountDto {
 
-    Integer getFromDaysCount();
+    int getFromDaysCount();
 
-    Double getDiscountPercent();
+    double getDiscountPercent();
 }

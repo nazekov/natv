@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PriceRequestDto {
 
-    Long channelId;
+    long channelId;
 
     double pricePerLetter;
 }
