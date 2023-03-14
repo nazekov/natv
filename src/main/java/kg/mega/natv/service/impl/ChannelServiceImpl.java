@@ -92,7 +92,11 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public Channel findById(Long id) {
-        return channelRepository.findById(id).get();
+        return channelRepository
+                .findById(id)
+                .orElseThrow(
+                    () -> new InputInfoChannelException("channel not found")
+                );
     }
 
     @Override
