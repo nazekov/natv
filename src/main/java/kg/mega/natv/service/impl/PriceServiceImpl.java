@@ -5,7 +5,6 @@ import kg.mega.natv.model.entity.Channel;
 import kg.mega.natv.repository.PriceRepository;
 import kg.mega.natv.service.ChannelService;
 import kg.mega.natv.service.PriceService;
-import kg.mega.natv.utils.DateUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
