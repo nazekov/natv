@@ -1,34 +1,56 @@
 package kg.mega.natv.controller;
 
-import kg.mega.natv.model.dto.ChannelDto;
+import kg.mega.natv.model.dto.request_dto.ChannelCreateDto;
+import kg.mega.natv.model.dto.request_dto.TextOrderRequestDto;
+import kg.mega.natv.model.dto.response_dto.ChannelResponseDto;
+import kg.mega.natv.model.dto.response_dto.TextOrderResponseDto;
 import kg.mega.natv.model.entity.Channel;
 import kg.mega.natv.service.ChannelService;
+import kg.mega.natv.service.OrderService;
 import kg.mega.natv.service.ValidateService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @RestController
-@RequestMapping("/channel")
+@RequestMapping("/api/v1/channel")
 public class ChannelController {
 
     private final ChannelService channelService;
+    private final OrderService orderService;
     private final ValidateService validateService;
 
     public ChannelController(ChannelService channelService,
+                             OrderService orderService,
                              ValidateService validateService) {
         this.channelService = channelService;
+        this.orderService = orderService;
         this.validateService = validateService;
     }
 
     @PostMapping("/save")
     public ResponseEntity<Channel> save(
-            @RequestPart("image") MultipartFile file,
-            @RequestPart("dto") ChannelDto channelDto) {
+                        @RequestPart("image") MultipartFile file,
+                        @RequestPart("dto") ChannelCreateDto channelDto) {
         validateService.checkInputData(file, channelDto);
         return ResponseEntity.ok(channelService.save(file, channelDto));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ChannelResponseDto>> showAllChannels() {
+        return ResponseEntity.ok(channelService.showAllChannels());
+    }
+
+    @GetMapping("/calculate")
+    public ResponseEntity<TextOrderResponseDto> getOrderPrice(
+            @RequestBody TextOrderRequestDto textOrderRequestDto) {
+        validateService.checkInputData(textOrderRequestDto);
+        return ResponseEntity.ok(orderService.getOrderPrice(textOrderRequestDto));
     }
 }
