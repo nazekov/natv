@@ -22,4 +22,6 @@ public interface ChannelService {
     List<ChannelResponseDto> showAllChannels();
 
     Channel addNewPrice(PriceRequestDto priceRequestDto);
+
+    Channel setActiveById(long id, boolean newActive);
 }

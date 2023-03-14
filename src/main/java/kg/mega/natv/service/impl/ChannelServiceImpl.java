@@ -138,4 +138,11 @@ public class ChannelServiceImpl implements ChannelService {
         channel.addNewPriceText(price);
         return channel;
     }
+
+    @Override
+    public Channel setActiveById(long id, boolean newActive) {
+        Channel channel = findById(id);
+        channel.setActive(newActive);
+        return channelRepository.save(channel);
+    }
 }
