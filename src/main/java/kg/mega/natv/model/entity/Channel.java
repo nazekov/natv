@@ -45,16 +45,14 @@ public class Channel {
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
     List<Discount> discountsText;
 
-    public void addNewPriceText(Price price) {
+    public void addNewPriceText(Price newPrice) {
         if (priceList == null) {
             priceList = new ArrayList<>();
         }
         if (priceList.size() != 0) {
-            priceList.get(priceList.size() - 1)
-                    .setEndDate(new Date());
+            priceList.forEach(price -> price.setEndDate(new Date()));
         }
-
-        price.setChannel(this);
-        priceList.add(price);
+        newPrice.setChannel(this);
+        priceList.add(newPrice);
     }
 }
