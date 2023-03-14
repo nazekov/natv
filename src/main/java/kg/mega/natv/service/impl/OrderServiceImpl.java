@@ -30,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final DiscountService discountService;
     private final OrderRepository orderRepository;
     private final ChannelService channelService;
+    private final OrderMapper orderMapper = OrderMapper.INSTANCE;
 
     public OrderServiceImpl(PriceService priceService,
                             DiscountService discountService,
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 getPriceCalculateWithDiscount(channelId, daysCount, priceCalc);
 
         TextOrderResponseDto textOrderResponseDto =
-                OrderMapper.INSTANCE.requstToResponseDto(textOrderRequestDto);
+                orderMapper.requstToResponseDto(textOrderRequestDto);
 
         textOrderResponseDto.setPrice(priceCalc);
         textOrderResponseDto.setPriceWithDiscount(priceCalcWithDiscount);
@@ -95,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
         String text = getFormattedText(orderRequestDto.getText());
         int textSize = getTextSize(text);
 
-        Order order = OrderMapper.INSTANCE.requestDtoToOrderEntity(orderRequestDto);
+        Order order = orderMapper.requestDtoToOrderEntity(orderRequestDto);
         order.setText(text);
         order.setCountSymbols(textSize);
         order.setCreatedDate(new Date());
@@ -142,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderResponseDto convertToResponseDto(Order order) {
         OrderResponseDto orderResponseDto =
-                OrderMapper.INSTANCE.orderToResponseDto(order);
+                orderMapper.orderToResponseDto(order);
 
         List<ChannelPriceResponseDto> channelsPriceList = new ArrayList<>();//
 
