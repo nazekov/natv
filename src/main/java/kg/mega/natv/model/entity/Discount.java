@@ -1,5 +1,6 @@
 package kg.mega.natv.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.mega.natv.utils.DateUtil;
 import lombok.AccessLevel;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_discounts_text")
+@Table(name = "tb_discounts")
 @Getter
 @Setter
 @ToString
@@ -33,12 +35,16 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    int fromDaysCount;
+    @Column(nullable = false)
+    Integer fromDaysCount;
 
-    double discountPercent;
+    @Column(nullable = false)
+    Double discountPercent;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     Date startDate;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     Date endDate;
 
     @ManyToOne

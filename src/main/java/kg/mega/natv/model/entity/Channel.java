@@ -29,7 +29,7 @@ public class Channel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 50)
     String name;
 
     @Column(columnDefinition = "boolean default true")

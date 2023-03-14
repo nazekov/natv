@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_prices_text")
+@Table(name = "tb_prices")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -32,12 +33,15 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(nullable = false)
     Double pricePerLetter;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
+    @Column(nullable = false)
     Date startDate;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
+    @Column(nullable = false)
     Date endDate;
 
     @ManyToOne
