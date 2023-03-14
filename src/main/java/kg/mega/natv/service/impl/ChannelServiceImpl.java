@@ -36,6 +36,10 @@ public class ChannelServiceImpl implements ChannelService {
 
     private final DiscountService discountService;
 
+    private final ChannelMapper channelMapper = ChannelMapper.INSTANCE;
+
+    private final DiscountMapper discountMapper = DiscountMapper.INSTANCE;
+
     public ChannelServiceImpl(ChannelRepository channelRepository,
                               PriceService priceService,
                               DiscountService discountService) {
@@ -103,22 +107,20 @@ public class ChannelServiceImpl implements ChannelService {
         List<Channel> channelList = channelRepository.findAllByActive(true);
 
         List<ChannelResponseDto> channelDtos
-                = ChannelMapper.INSTANCE.channelListToListDto(channelList);
+                = channelMapper.channelListToListDto(channelList);
 
-        channelDtos.forEach(channelDto -> {
-            channelDto.setPricePerLetter(
-                    priceService
-                        .findPriceByChannelIdAndEndDate(channelDto.getId())
+        channelDtos.forEach(
+            channelDto -> {
+                channelDto.setPricePerLetter(
+                    priceService.findActualPriceByChannelId(channelDto.getId())
                 );
-            channelDto.setDiscounts(
-                    DiscountMapper.INSTANCE
-                        .idtosToDiscountDtoList(
-                            discountService.findDiscounts(channelDto.getId())
-                        )
+                channelDto.setDiscounts(
+                    discountMapper.idtosToDiscountDtoList(
+                        discountService.findDiscounts(channelDto.getId())
+                    )
                 );
             }
         );
-
         return channelDtos;
     }
 
