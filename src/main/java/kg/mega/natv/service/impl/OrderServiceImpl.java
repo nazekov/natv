@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     private double getPriceCalculateWithDiscount(Long channelId,
                                                  Integer daysCount,
                                                  double priceCalc) {
-        Double discountPercent = getDiscountPercent(channelId, daysCount);
+        double discountPercent = getDiscountPercent(channelId, daysCount);
         return priceCalc * (1.0 - discountPercent / 100.0);
     }
 
@@ -74,11 +74,11 @@ public class OrderServiceImpl implements OrderService {
         return pricePerLetter * daysCount * textSize;
     }
 
-    private Double getDiscountPercent(Long channelId, int daysCount) {
+    private double getDiscountPercent(Long channelId, int daysCount) {
         return discountService.findDiscountText(channelId, daysCount);
     }
 
-    private Double getPricePerLetter(Long channelId) {
+    private double getPricePerLetter(Long channelId) {
         return priceService.findActualPriceByChannelId(channelId);
     }
 

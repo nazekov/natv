@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface DiscountService {
 
-    Double findDiscountText(Long channelId, Integer countDays);
+    double findDiscountText(Long channelId, int countDays);
 
     List<IDiscountDto> findDiscounts(Long channelId);
 }

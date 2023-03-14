@@ -17,11 +17,9 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public Double findDiscountText(Long channelId, Integer countDays) {
-        return discountRepository.findDiscount(
-                    channelId,
-                    DateUtil.getInstance().getEndDate(),
-                    countDays)
+    public double findDiscountText(Long channelId, int countDays) {
+        return discountRepository
+                .findDiscount(channelId, countDays)
                 .orElse(0.0);
     }
 
