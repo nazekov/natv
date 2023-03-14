@@ -137,7 +137,7 @@ public class ValidateServiceImpl implements ValidateService {
             }
         },
         orderDto -> {
-            if (isIncorrectPhone(orderDto.getClientPhone())) {
+            if (isWrongPhoneNumber(orderDto.getClientPhone())) {
                 throw new OrderException(
                         "Phone number must start with '+' and contains only digits." +
                         "Phone number length must be at least 10 characters.");
@@ -145,9 +145,12 @@ public class ValidateServiceImpl implements ValidateService {
         }
     );
 
-    private boolean isIncorrectPhone(String phone) {
-        boolean result = false;
-        if (phone.length() >= 10 && phone.charAt(0) == '+') {
+    private boolean isWrongPhoneNumber(String phone) {
+        boolean result = true;
+        if (phone != null
+            && phone.charAt(0) == '+'
+            && phone.length() >= 10) {
+            result = false;
             for (int i = 1; i < phone.length(); i++) {
                 char c = phone.charAt(i);
                 if (c < '0' || c > '9') {
