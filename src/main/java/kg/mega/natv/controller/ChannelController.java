@@ -58,4 +58,9 @@ public class ChannelController {
     public ResponseEntity<Channel> hideActiveChannel(@PathVariable long id) {
         return ResponseEntity.ok(channelService.setActiveById(id, false));
     }
+
+    @PutMapping("active/{id}")
+    public ResponseEntity<Channel> activateChannel(@PathVariable long id) {
+        return ResponseEntity.ok(channelService.setActiveById(id, true));
+    }
 }
