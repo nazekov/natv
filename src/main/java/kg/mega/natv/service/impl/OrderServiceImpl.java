@@ -53,7 +53,8 @@ public class OrderServiceImpl implements OrderService {
         double priceCalc = getPriceCalculate(channelId, daysCount, textSize);
         double priceCalcWithDiscount =
                 getPriceCalculateWithDiscount(channelId, daysCount, priceCalc);
-
+//        priceCalcWithDiscount = ((int) (priceCalcWithDiscount * 100)) / 100.0;
+        priceCalcWithDiscount = Math.round(priceCalcWithDiscount * 100) / 100.0;
         TextOrderResponseDto textOrderResponseDto =
                 orderMapper.requstToResponseDto(textOrderRequestDto);
 
@@ -111,6 +112,7 @@ public class OrderServiceImpl implements OrderService {
                 double priceCalc = getPriceCalculate(channelId, daysCount, textSize);
                 double priceWithDiscount =
                         getPriceCalculateWithDiscount(channelId, daysCount, priceCalc);
+                priceWithDiscount = Math.round(priceWithDiscount * 100) / 100.0;
                 OrderDetails orderDetails = new OrderDetails();
                 orderDetails.setOrder(order);
                 orderDetails.setChannel(channelService.findById(channelId));
@@ -133,11 +135,11 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailsList.add(orderDetails);
             }
         );
-        order.setTotalPrice(totalPrice[0]);
+        double totalPriceRound = Math.round(totalPrice[0] * 100) / 100.0;
+        order.setTotalPrice(totalPriceRound);
         order.setOrderDetailsList(orderDetailsList);
 
         orderRepository.save(order);
-
         return convertToResponseDto(order);
     }
 
