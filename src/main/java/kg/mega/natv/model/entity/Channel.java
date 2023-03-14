@@ -14,8 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -43,16 +41,5 @@ public class Channel {
     List<Price> priceList;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
-    List<Discount> discountsText;
-
-    public void addNewPriceText(Price newPrice) {
-        if (priceList == null) {
-            priceList = new ArrayList<>();
-        }
-        if (priceList.size() != 0) {
-            priceList.forEach(price -> price.setEndDate(new Date()));
-        }
-        newPrice.setChannel(this);
-        priceList.add(newPrice);
-    }
+    List<Discount> discounts;
 }
