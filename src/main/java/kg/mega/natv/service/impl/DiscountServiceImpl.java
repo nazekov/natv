@@ -10,12 +10,14 @@ import kg.mega.natv.model.entity.Discount;
 import kg.mega.natv.repository.DiscountRepository;
 import kg.mega.natv.service.ChannelService;
 import kg.mega.natv.service.DiscountService;
+import kg.mega.natv.utils.DateUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -57,7 +59,7 @@ public class DiscountServiceImpl implements DiscountService {
         newDiscount.setChannel(channel);
         List<Discount> discountList = channel.getDiscounts();
         discountList.add(newDiscount);
-        return channelService.updateDiscounts(channel);
+        return channelService.updateChannel(channel);
     }
 
     @Override
@@ -73,6 +75,24 @@ public class DiscountServiceImpl implements DiscountService {
                                             + " not have such discount.")
         );
         discount.setEndDate(new Date());
-        return channelService.updateDiscounts(channel);
+        return channelService.updateChannel(channel);
+    }
+
+    @Override
+    public Channel removeAll(long channelId) {
+        Channel channel = channelService.findById(channelId);
+        List<Discount> discounts = channel.getDiscounts()
+                .stream()
+                .filter(discount -> discount.getEndDate()
+                        .compareTo(DateUtil.getInstance().getEndDate()) == 0)
+                .collect(Collectors.toList());
+
+        if (discounts.size() == 0) { // По актуальным скидкам
+            throw new InputInfoChannelException(
+                "channel id = " + channelId + " not have any discounts"
+            );
+        }
+        discounts.forEach(discount -> discount.setEndDate(new Date()));
+        return channelService.updateChannel(channel);
     }
 }

@@ -15,4 +15,6 @@ public interface DiscountService {
     Channel save(DiscountCreateDto discountDto);
 
     Channel remove(DiscountRemoveDto discountDto);
+
+    Channel removeAll(long channelId);
 }

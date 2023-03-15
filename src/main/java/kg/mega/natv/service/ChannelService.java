@@ -25,5 +25,5 @@ public interface ChannelService {
 
     Channel setActiveById(long id, boolean newActive);
 
-    Channel updateDiscounts(Channel channel);
+    Channel updateChannel(Channel channel);
 }

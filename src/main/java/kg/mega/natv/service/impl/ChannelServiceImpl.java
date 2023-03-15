@@ -158,7 +158,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Channel updateDiscounts(Channel channel) {
+    public Channel updateChannel(Channel channel) {
         return channelRepository.save(channel);
     }
 }
