@@ -53,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
         double priceCalc = getPriceCalculate(channelId, daysCount, textSize);
         double priceCalcWithDiscount =
                 getPriceCalculateWithDiscount(channelId, daysCount, priceCalc);
-//        priceCalcWithDiscount = ((int) (priceCalcWithDiscount * 100)) / 100.0;
         priceCalcWithDiscount = Math.round(priceCalcWithDiscount * 100) / 100.0;
         TextOrderResponseDto textOrderResponseDto =
                 orderMapper.requstToResponseDto(textOrderRequestDto);
