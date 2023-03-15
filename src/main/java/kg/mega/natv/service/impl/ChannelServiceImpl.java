@@ -55,7 +55,11 @@ public class ChannelServiceImpl implements ChannelService {
     public Channel save(MultipartFile file, ChannelCreateDto channelDto) {
         Channel channel = new Channel();
         channel.setName(channelDto.getName());
-        channel.setPathLogo(saveLogo(file));
+        try {
+            channel.setPathLogo(saveLogo(file));
+        } catch (IOException e) {
+            throw new ImageException("file image not saved.");
+        }
 
         Price price = new Price();
         price.setPricePerLetter(channelDto.getPricePerLetter());
@@ -72,17 +76,9 @@ public class ChannelServiceImpl implements ChannelService {
         return channelRepository.save(channel);
     }
 
-    private String saveLogo(MultipartFile file) {
+    private String saveLogo(MultipartFile file) throws IOException {
         Path path = Paths.get("DataSet/" + file.getOriginalFilename());
-
-        try (OutputStream out = new BufferedOutputStream(
-                Files.newOutputStream(path, CREATE, APPEND))
-        ) {
-            byte[] imageBytes = file.getBytes();
-            out.write(imageBytes, 0, imageBytes.length);
-        } catch (IOException ioe) {
-            throw new ImageException("file image not saved.");
-        }
+        Files.write(path, file.getBytes(), CREATE, APPEND);
         return path.toAbsolutePath().toString();
     }
 
