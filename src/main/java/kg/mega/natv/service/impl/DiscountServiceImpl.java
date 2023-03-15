@@ -4,14 +4,16 @@ import kg.mega.natv.exception_handle.exception.InputInfoChannelException;
 import kg.mega.natv.mapper.DiscountMapper;
 import kg.mega.natv.model.dto.IDiscountDto;
 import kg.mega.natv.model.dto.request_dto.DiscountCreateDto;
+import kg.mega.natv.model.dto.request_dto.DiscountRemoveDto;
 import kg.mega.natv.model.entity.Channel;
 import kg.mega.natv.model.entity.Discount;
 import kg.mega.natv.repository.DiscountRepository;
 import kg.mega.natv.service.ChannelService;
 import kg.mega.natv.service.DiscountService;
-import kg.mega.natv.utils.DateUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +57,22 @@ public class DiscountServiceImpl implements DiscountService {
         newDiscount.setChannel(channel);
         List<Discount> discountList = channel.getDiscounts();
         discountList.add(newDiscount);
-        return channelService.addNewDiscount(channel);
+        return channelService.updateDiscounts(channel);
+    }
+
+    @Override
+    public Channel remove(DiscountRemoveDto discountDto) {
+        long id = discountDto.getChannelId();
+        Channel channel = channelService.findById(id);
+        double discountPercent = discountDto.getDiscountPercent();
+        Optional<Discount> optionalDiscount =
+                discountRepository.existsDiscount(id, discountPercent);
+
+        Discount discount = optionalDiscount.orElseThrow(
+            () -> new InputInfoChannelException("channel id = " + id
+                                            + " not have such discount.")
+        );
+        discount.setEndDate(new Date());
+        return channelService.updateDiscounts(channel);
     }
 }
