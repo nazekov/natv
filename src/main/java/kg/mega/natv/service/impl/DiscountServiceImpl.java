@@ -87,9 +87,9 @@ public class DiscountServiceImpl implements DiscountService {
                         .compareTo(DateUtil.getInstance().getEndDate()) == 0)
                 .collect(Collectors.toList());
 
-        if (discounts.size() == 0) { // По актуальным скидкам
+        if (discounts.size() == 0) {
             throw new InputInfoChannelException(
-                "channel id = " + channelId + " not have any discounts"
+                "channel id = " + channelId + " not have any actual discounts"
             );
         }
         discounts.forEach(discount -> discount.setEndDate(new Date()));
