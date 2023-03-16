@@ -8,7 +8,6 @@ import kg.mega.natv.service.ChannelService;
 import kg.mega.natv.service.PriceService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -34,6 +33,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Channel addPrice(PriceRequestDto priceRequestDto) {
+        // needs to refactoring
         return channelService.addNewPrice(priceRequestDto);
     }
 }
