@@ -25,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderDetails {
+public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +45,6 @@ public class OrderDetails {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     Order order;
 
-    @OneToMany(mappedBy = "orderDetails", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
     List<DatesOrderDetails> days;
 }

@@ -11,7 +11,7 @@ import kg.mega.natv.model.dto.response_dto.OrderResponseDto;
 import kg.mega.natv.model.dto.response_dto.TextOrderResponseDto;
 import kg.mega.natv.model.entity.DatesOrderDetails;
 import kg.mega.natv.model.entity.Order;
-import kg.mega.natv.model.entity.OrderDetails;
+import kg.mega.natv.model.entity.OrderDetail;
 import kg.mega.natv.repository.OrderRepository;
 import kg.mega.natv.service.ChannelService;
 import kg.mega.natv.service.DiscountService;
@@ -103,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(StatusOrder.CREATED);
 
         double[] totalPrice = {0.0};
-        List<OrderDetails> orderDetailsList = new ArrayList<>();
+        List<OrderDetail> orderDetailList = new ArrayList<>();
         orderRequestDto.getChannels().forEach(
             channelDto -> {
                 int daysCount = channelDto.getDays().size();
@@ -112,11 +112,11 @@ public class OrderServiceImpl implements OrderService {
                 double priceWithDiscount =
                         getPriceCalculateWithDiscount(channelId, daysCount, priceCalc);
                 priceWithDiscount = Math.round(priceWithDiscount * 100) / 100.0;
-                OrderDetails orderDetails = new OrderDetails();
-                orderDetails.setOrder(order);
-                orderDetails.setChannel(channelService.findById(channelId));
-                orderDetails.setPrice(priceCalc);
-                orderDetails.setPriceWithDiscount(priceWithDiscount);
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrder(order);
+                orderDetail.setChannel(channelService.findById(channelId));
+                orderDetail.setPrice(priceCalc);
+                orderDetail.setPriceWithDiscount(priceWithDiscount);
                 totalPrice[0] += priceWithDiscount;
 
                 List<DatesOrderDetails> datesOrderDetailsList = new ArrayList<>();
@@ -125,18 +125,18 @@ public class OrderServiceImpl implements OrderService {
                     date -> {
                         DatesOrderDetails datesOrderDetails = new DatesOrderDetails();
                         datesOrderDetails.setDate(date);
-                        datesOrderDetails.setOrderDetails(orderDetails);
+                        datesOrderDetails.setOrderDetail(orderDetail);
                         datesOrderDetailsList.add(datesOrderDetails);
                     }
                 );
-                orderDetails.setDays(datesOrderDetailsList);
+                orderDetail.setDays(datesOrderDetailsList);
 
-                orderDetailsList.add(orderDetails);
+                orderDetailList.add(orderDetail);
             }
         );
         double totalPriceRound = Math.round(totalPrice[0] * 100) / 100.0;
         order.setTotalPrice(totalPriceRound);
-        order.setOrderDetailsList(orderDetailsList);
+        order.setOrderDetailList(orderDetailList);
 
         orderRepository.save(order);
         return convertToResponseDto(order);
@@ -148,15 +148,15 @@ public class OrderServiceImpl implements OrderService {
 
         List<ChannelPriceResponseDto> channelsPriceList = new ArrayList<>();//
 
-        List<OrderDetails> orderDetailsList = order.getOrderDetailsList();
-        orderDetailsList.forEach(
-            orderDetails -> {
+        List<OrderDetail> orderDetailList = order.getOrderDetailList();
+        orderDetailList.forEach(
+                orderDetail -> {
                 ChannelPriceResponseDto channelPriceResponseDto =
                         OrderDetailsMapper
                             .INSTANCE
-                            .orderDetailsToChannelPriceResponseDto(orderDetails);
+                            .orderDetailsToChannelPriceResponseDto(orderDetail);
 
-                List<DatesOrderDetails> datesOrderDetailsList = orderDetails.getDays();
+                List<DatesOrderDetails> datesOrderDetailsList = orderDetail.getDays();
 
                 List<Date> dates = new ArrayList<>();
                 datesOrderDetailsList.forEach(
