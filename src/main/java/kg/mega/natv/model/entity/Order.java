@@ -60,5 +60,5 @@ public class Order {
     Date createdDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    List<OrderDetails> orderDetailsList;
+    List<OrderDetail> orderDetailList;
 }
